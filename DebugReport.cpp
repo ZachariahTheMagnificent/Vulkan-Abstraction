@@ -41,7 +41,8 @@ namespace Vk
             debug_report_handle_ = p_instance_->destroy_debug_report( debug_report_handle_ );
     }
 
-    DebugReport &DebugReport::operator=( DebugReport &&debug_report ) noexcept
+    DebugReport&
+    DebugReport::operator=( DebugReport &&debug_report ) noexcept
     {
         if( this != &debug_report )
         {

@@ -10,13 +10,19 @@
 
 #include <vulkan/vulkan.h>
 
+#ifdef NDEBUG
+constexpr bool enable_validation_layers = false;
+#else
+constexpr bool enable_validation_layers = true;
+#endif
+
 namespace Vk
 {
     class Instance
     {
     public:
         Instance() = default;
-        Instance( const std::string& name, std::vector<const char*>& extensions );
+        Instance( const std::string& name, const std::vector<const char*>& validation_layers, std::vector<const char*>& extensions );
         Instance( const Instance& instance ) = delete;
         Instance( Instance&& instance ) noexcept;
         ~Instance( );
@@ -27,10 +33,10 @@ namespace Vk
         VkDebugReportCallbackEXT create_debug_report( const VkDebugReportCallbackCreateInfoEXT& create_info );
         VkDebugReportCallbackEXT destroy_debug_report( VkDebugReportCallbackEXT& debug_report_handle );
 
-        std::vector<VkPhysicalDevice> enumerate_physical_devices( );
+        std::vector<VkPhysicalDevice> enumerate_physical_devices( ) noexcept;
 
     private:
-        bool check_validation_layer_support();
+        bool check_validation_layer_support( const std::vector<const char*>& validation_layers ) noexcept;
 
         VKAPI_ATTR VkResult VKAPI_CALL vk_create_debug_report_callback_EXT( VkInstance instance,
                                                                             const VkDebugReportCallbackCreateInfoEXT* pCreateInfo,
@@ -42,11 +48,6 @@ namespace Vk
 
     private:
         VkInstance instance_handle_ = VK_NULL_HANDLE;
-
-        const std::vector<const char *> validation_layers =
-        {
-            "VK_LAYER_LUNARG_standard_validation"
-        };
     };
 }
 

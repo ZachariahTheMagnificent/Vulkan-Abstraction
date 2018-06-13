@@ -7,17 +7,11 @@
 
 #include "Instance.h"
 
-#ifdef NDEBUG
-constextr bool enable_validation_layers = false;
-#else
-constexpr bool enable_validation_layers = true;
-#endif
-
 namespace Vk
 {
-    Instance::Instance( const std::string &name, std::vector<const char*>& extensions )
+    Instance::Instance( const std::string &name, const std::vector<const char*>& validation_layers, std::vector<const char*>& extensions )
     {
-        if( enable_validation_layers && !check_validation_layer_support() )
+        if( enable_validation_layers && !check_validation_layer_support( validation_layers ) )
             std::cerr << "Validation layers requested, but not available" << std::endl;
 
         if( enable_validation_layers )
@@ -48,9 +42,9 @@ namespace Vk
         }
 
         if( vkCreateInstance( &create_info, nullptr, &instance_handle_ ) != VK_SUCCESS )
-            std::cerr << "Failed to create Instance" << std::endl;
+            std::cerr << "Failed to create Instance." << std::endl;
         else
-            std::cout << "Instance Created successfully." << std::endl;
+            std::cout << "Instance created successfully." << std::endl;
     }
 
     Instance::Instance( Instance &&instance ) noexcept
@@ -62,9 +56,12 @@ namespace Vk
     {
         if( instance_handle_ != VK_NULL_HANDLE )
             vkDestroyInstance( instance_handle_, nullptr );
+
+        std::cout << "Instance destroyed." << std::endl;
     }
 
-    Instance &Instance::operator=( Instance &&instance ) noexcept
+    Instance&
+    Instance::operator=( Instance &&instance ) noexcept
     {
         if( this != &instance )
         {
@@ -84,9 +81,9 @@ namespace Vk
         VkDebugReportCallbackEXT debug_report;
 
         if( vk_create_debug_report_callback_EXT( instance_handle_, &create_info, nullptr, &debug_report ) != VK_SUCCESS )
-            std::cerr << "Failed to create debug report callback" << std::endl;
+            std::cerr << "Failed to create debug report callback." << std::endl;
         else
-            std::cout << "Debug report callback created successfully" << std::endl;
+            std::cout << "Debug report callback created successfully." << std::endl;
 
         return debug_report;
     }
@@ -96,11 +93,13 @@ namespace Vk
     {
         vk_destroy_debug_report_callback_EXT( instance_handle_, debug_report_handle, nullptr );
 
+        std::cout << "Debug report callback destroyed." << std::endl;
+
         return VK_NULL_HANDLE;
     }
 
     std::vector<VkPhysicalDevice>
-    Instance::enumerate_physical_devices( )
+    Instance::enumerate_physical_devices( ) noexcept
     {
         uint32_t device_count;
         vkEnumeratePhysicalDevices( instance_handle_, &device_count, nullptr );
@@ -115,7 +114,7 @@ namespace Vk
     }
 
     bool
-    Instance::check_validation_layer_support( )
+    Instance::check_validation_layer_support( const std::vector<const char*>& validation_layers ) noexcept
     {
         uint32_t layer_count;
         vkEnumerateInstanceLayerProperties( &layer_count, nullptr );
