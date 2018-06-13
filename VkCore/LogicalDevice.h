@@ -31,6 +31,9 @@ namespace Vk
         VkSemaphore create_semaphore( VkSemaphoreCreateInfo& create_info ) const;
         VkSemaphore destroy_semaphore( VkSemaphore& semaphore_handle ) const;
 
+        VkFence create_fence( VkFenceCreateInfo& create_info ) const;
+        VkFence destroy_fence( VkFence& fence_handle ) const;
+
     private:
         VkDevice device_handle_ = VK_NULL_HANDLE;
     };

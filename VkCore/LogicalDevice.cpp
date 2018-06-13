@@ -115,6 +115,29 @@ namespace Vk
     {
         vkDestroySemaphore( device_handle_, semaphore_handle, nullptr );
 
+        std::cout << "Semaphore destroyed." << std::endl;
+
+        return VK_NULL_HANDLE;
+    }
+
+    VkFence LogicalDevice::create_fence( VkFenceCreateInfo& create_info ) const
+    {
+        VkFence fence_handle;
+
+        if( vkCreateFence( device_handle_, &create_info, nullptr, &fence_handle ) != VK_NULL_HANDLE )
+            std::cerr << "Failed to create fence." << std::endl;
+        else
+            std::cout << "Fence create successfully." << std::endl;
+
+        return fence_handle;
+    }
+
+    VkFence LogicalDevice::destroy_fence( VkFence& fence_handle ) const
+    {
+        vkDestroyFence( device_handle_, fence_handle, nullptr );
+
+        std::cout << "Fence destroyed." << std::endl;
+
         return VK_NULL_HANDLE;
     }
 }

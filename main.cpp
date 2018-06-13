@@ -6,6 +6,7 @@
 #include "VkCore/LogicalDevice.h"
 #include "VkCore/CommandPool.h"
 #include "VkCore/Semaphores.h"
+#include "VkCore/Fences.h"
 
 int main( )
 {
@@ -20,13 +21,17 @@ int main( )
     std::vector<const char*> extensions;
 
     Vk::Instance instance( "Compute test", validation_layers, extensions );
+    Vk::DebugReport debug_report;
+
     if( enable_validation_layers )
-        Vk::DebugReport debug_report( &instance );
+        debug_report = Vk::DebugReport( &instance );
+
     Vk::PhysicalDevice gpu( instance );
     Vk::LogicalDevice logical_device( gpu, validation_layers, device_extensions );
     Vk::CommandPool command_pool( gpu, &logical_device, Vk::PhysicalDevice::QueueFamilyType::eCOMPUTE );
 
     Vk::Semaphores<2> semaphores( &logical_device );
+    Vk::Fences<2> fences( &logical_device );
 
     return 0;
 }
