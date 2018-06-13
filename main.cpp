@@ -5,6 +5,7 @@
 #include "VkCore/PhysicalDevice.h"
 #include "VkCore/LogicalDevice.h"
 #include "VkCore/CommandPool.h"
+#include "VkCore/Semaphores.h"
 
 int main( )
 {
@@ -23,7 +24,9 @@ int main( )
         Vk::DebugReport debug_report( &instance );
     Vk::PhysicalDevice gpu( instance );
     Vk::LogicalDevice logical_device( gpu, validation_layers, device_extensions );
-    Vk::CommandPool compute_command_pool( gpu, &logical_device, Vk::PhysicalDevice::QueueFamilyType::eCOMPUTE );
+    Vk::CommandPool command_pool( gpu, &logical_device, Vk::PhysicalDevice::QueueFamilyType::eCOMPUTE );
+
+    Vk::Semaphores<2> semaphores( &logical_device );
 
     return 0;
 }

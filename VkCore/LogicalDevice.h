@@ -26,7 +26,10 @@ namespace Vk
         LogicalDevice& operator=( LogicalDevice&& logical_device ) noexcept;
 
         VkCommandPool create_command_pool( VkCommandPoolCreateInfo& create_info ) const;
-        VkCommandPool destroy_command_pool( VkCommandPool& command_pool ) const;
+        VkCommandPool destroy_command_pool( VkCommandPool& command_pool_handle ) const;
+
+        VkSemaphore create_semaphore( VkSemaphoreCreateInfo& create_info ) const;
+        VkSemaphore destroy_semaphore( VkSemaphore& semaphore_handle ) const;
 
     private:
         VkDevice device_handle_ = VK_NULL_HANDLE;

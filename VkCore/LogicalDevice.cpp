@@ -98,4 +98,23 @@ namespace Vk
 
         return VK_NULL_HANDLE;
     }
+
+    VkSemaphore LogicalDevice::create_semaphore( VkSemaphoreCreateInfo& create_info ) const
+    {
+        VkSemaphore semaphore_handle = VK_NULL_HANDLE;
+
+        if( vkCreateSemaphore( device_handle_, &create_info, nullptr, &semaphore_handle ) != VK_SUCCESS )
+            std::cerr << "Failed to create semaphore" << std::endl;
+        else
+            std::cout << "Semaphore created successfully." << std::endl;
+
+        return semaphore_handle;
+    }
+
+    VkSemaphore LogicalDevice::destroy_semaphore( VkSemaphore& semaphore_handle ) const
+    {
+        vkDestroySemaphore( device_handle_, semaphore_handle, nullptr );
+
+        return VK_NULL_HANDLE;
+    }
 }
