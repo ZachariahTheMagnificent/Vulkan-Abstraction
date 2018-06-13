@@ -17,6 +17,14 @@ namespace Vk
     class PhysicalDevice
     {
     public:
+        enum class QueueFamilyType
+        {
+            eGRAPHICS,
+            ePRESENT,
+            eCOMPUTE
+        };
+
+    public:
         PhysicalDevice() = default;
         explicit PhysicalDevice( Instance& p_instance );
         PhysicalDevice( Instance& p_instance, VkPhysicalDeviceFeatures& physical_Device_features );
@@ -26,6 +34,7 @@ namespace Vk
 
         void set_device_features( VkPhysicalDeviceFeatures& physical_device_features ) noexcept;
 
+        int32_t get_queue_family_index( const QueueFamilyType& type ) const noexcept;
         std::set<int> unique_queue_families() noexcept;
         const VkPhysicalDeviceFeatures& features() noexcept;
 

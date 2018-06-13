@@ -8,6 +8,6 @@ link_directories( ${PROJECT_SOURCE_DIR}/dependencies/lib/glfw )
 
 set( CMAKE_CXX_STANDARD 17 )
 
-add_executable( Compute main.cpp Instance.h Instance.cpp DebugReport.h DebugReport.cpp PhysicalDevice.h PhysicalDevice.cpp QueueFamilyIndices.h LogicalDevice.h LogicalDevice.cpp)
+add_executable( Compute main.cpp VkCore/Instance.h VkCore/Instance.cpp VkCore/DebugReport.h VkCore/DebugReport.cpp VkCore/PhysicalDevice.h VkCore/PhysicalDevice.cpp VkCore/QueueFamilyIndices.h VkCore/LogicalDevice.h VkCore/LogicalDevice.cpp VkCore/CommandPool.h VkCore/CommandPool.cpp)
 
 target_link_libraries( Compute libvulkan.so libglfw.so )

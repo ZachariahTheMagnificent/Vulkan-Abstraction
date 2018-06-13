@@ -25,6 +25,9 @@ namespace Vk
         LogicalDevice& operator=( const LogicalDevice& logical_device ) = delete;
         LogicalDevice& operator=( LogicalDevice&& logical_device ) noexcept;
 
+        VkCommandPool create_command_pool( VkCommandPoolCreateInfo& create_info ) const;
+        VkCommandPool destroy_command_pool( VkCommandPool& command_pool ) const;
+
     private:
         VkDevice device_handle_ = VK_NULL_HANDLE;
     };

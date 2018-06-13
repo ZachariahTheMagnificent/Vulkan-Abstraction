@@ -76,4 +76,26 @@ namespace Vk
 
         return *this;
     }
+
+    VkCommandPool
+    LogicalDevice::create_command_pool( VkCommandPoolCreateInfo& create_info ) const
+    {
+        VkCommandPool command_pool_handle;
+
+        if( vkCreateCommandPool( device_handle_, &create_info, nullptr, &command_pool_handle ) != VK_SUCCESS )
+            std::cerr << "Failed to create Command Pool." << std::endl;
+        else
+            std::cout << "Command Pool created successfully." << std::endl;
+
+        return command_pool_handle;
+    }
+    VkCommandPool
+    LogicalDevice::destroy_command_pool( VkCommandPool& command_pool ) const
+    {
+        vkDestroyCommandPool( device_handle_, command_pool, nullptr );
+
+        std::cout << "Command Pool destroyed." << std::endl;
+
+        return VK_NULL_HANDLE;
+    }
 }

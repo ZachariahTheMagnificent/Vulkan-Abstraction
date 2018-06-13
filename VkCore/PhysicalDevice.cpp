@@ -47,6 +47,17 @@ namespace Vk
         physical_device_features_ = physical_device_features;
     }
 
+    int32_t PhysicalDevice::get_queue_family_index( const PhysicalDevice::QueueFamilyType& type ) const noexcept
+    {
+        if( type == QueueFamilyType::eGRAPHICS )
+            return queue_family_indices_.graphics_family;
+        else if( type == QueueFamilyType::ePRESENT )
+            return queue_family_indices_.present_family;
+        else if( type == QueueFamilyType::eCOMPUTE )
+            return queue_family_indices_.compute_family;
+
+        return -1;
+    }
     std::set<int>
     PhysicalDevice::unique_queue_families( ) noexcept
     {

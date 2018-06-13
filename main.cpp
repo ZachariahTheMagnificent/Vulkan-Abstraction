@@ -1,9 +1,10 @@
 #include <iostream>
 
-#include "Instance.h"
-#include "DebugReport.h"
-#include "PhysicalDevice.h"
-#include "LogicalDevice.h"
+#include "VkCore/Instance.h"
+#include "VkCore/DebugReport.h"
+#include "VkCore/PhysicalDevice.h"
+#include "VkCore/LogicalDevice.h"
+#include "VkCore/CommandPool.h"
 
 int main( )
 {
@@ -22,6 +23,7 @@ int main( )
         Vk::DebugReport debug_report( &instance );
     Vk::PhysicalDevice gpu( instance );
     Vk::LogicalDevice logical_device( gpu, validation_layers, device_extensions );
+    Vk::CommandPool compute_command_pool( gpu, &logical_device, Vk::PhysicalDevice::QueueFamilyType::eCOMPUTE );
 
     return 0;
 }
