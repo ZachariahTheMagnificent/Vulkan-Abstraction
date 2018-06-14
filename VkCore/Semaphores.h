@@ -46,7 +46,7 @@ namespace Vk
         {
             if( this != &semaphores )
             {
-                for( auto i = 0; i < size; ++i )
+                for( auto i = 0; i < num_elems_; ++i )
                 {
                     if( semaphore_handles_[i] != VK_NULL_HANDLE )
                         semaphore_handles_[i] = p_logical_device_->destroy_semaphore( semaphore_handles_[i] );
@@ -64,7 +64,8 @@ namespace Vk
     private:
         const LogicalDevice* p_logical_device_ = nullptr;
 
-        std::array<VkSemaphore, size> semaphore_handles_ = {};
+        VkSemaphore semaphore_handles_[size] = {};
+        size_t num_elems_ = size;
     };
 }
 

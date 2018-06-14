@@ -99,7 +99,8 @@ namespace Vk
         return VK_NULL_HANDLE;
     }
 
-    VkSemaphore LogicalDevice::create_semaphore( VkSemaphoreCreateInfo& create_info ) const
+    VkSemaphore
+    LogicalDevice::create_semaphore( VkSemaphoreCreateInfo& create_info ) const
     {
         VkSemaphore semaphore_handle = VK_NULL_HANDLE;
 
@@ -111,7 +112,8 @@ namespace Vk
         return semaphore_handle;
     }
 
-    VkSemaphore LogicalDevice::destroy_semaphore( VkSemaphore& semaphore_handle ) const
+    VkSemaphore
+    LogicalDevice::destroy_semaphore( VkSemaphore& semaphore_handle ) const
     {
         vkDestroySemaphore( device_handle_, semaphore_handle, nullptr );
 
@@ -120,7 +122,8 @@ namespace Vk
         return VK_NULL_HANDLE;
     }
 
-    VkFence LogicalDevice::create_fence( VkFenceCreateInfo& create_info ) const
+    VkFence
+    LogicalDevice::create_fence( VkFenceCreateInfo& create_info ) const
     {
         VkFence fence_handle;
 
@@ -132,12 +135,25 @@ namespace Vk
         return fence_handle;
     }
 
-    VkFence LogicalDevice::destroy_fence( VkFence& fence_handle ) const
+    VkFence
+    LogicalDevice::destroy_fence( VkFence& fence_handle ) const
     {
         vkDestroyFence( device_handle_, fence_handle, nullptr );
 
         std::cout << "Fence destroyed." << std::endl;
 
         return VK_NULL_HANDLE;
+    }
+
+    void
+    LogicalDevice::wait_for_fences( VkFence* p_fence_handle, uint32_t fence_count, VkBool32 wait_all, uint64_t timeout ) const
+    {
+        vkWaitForFences( device_handle_, fence_count, p_fence_handle, wait_all, timeout );
+    }
+
+    void
+    LogicalDevice::reset_fences( VkFence* p_fence_handle, uint32_t fence_count ) const
+    {
+        vkResetFences( device_handle_, fence_count, p_fence_handle );
     }
 }

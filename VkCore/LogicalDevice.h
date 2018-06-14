@@ -34,6 +34,9 @@ namespace Vk
         VkFence create_fence( VkFenceCreateInfo& create_info ) const;
         VkFence destroy_fence( VkFence& fence_handle ) const;
 
+        void wait_for_fences( VkFence* p_fence_handle, uint32_t fence_count, VkBool32 wait_all, uint64_t timeout ) const;
+        void reset_fences( VkFence* p_fence_handle, uint32_t fence_count ) const;
+
     private:
         VkDevice device_handle_ = VK_NULL_HANDLE;
     };
