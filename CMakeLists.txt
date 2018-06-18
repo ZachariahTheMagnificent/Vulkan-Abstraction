@@ -16,7 +16,7 @@ add_executable( Compute
         VkCore/DebugReport.cpp
         VkCore/PhysicalDevice.h
         VkCore/PhysicalDevice.cpp
-        VkCore/QueueFamilyIndices.h
+        VkHelpers/QueueFamilyIndices.h
         VkCore/LogicalDevice.h
         VkCore/LogicalDevice.cpp
         VkCore/CommandPool.h

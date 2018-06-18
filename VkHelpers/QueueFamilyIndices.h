@@ -11,6 +11,13 @@ namespace Vk
 {
     namespace Helpers
     {
+        enum class QueueFamilyType
+        {
+            eGRAPHICS,
+            ePRESENT,
+            eCOMPUTE
+        };
+
         struct QueueFamilyIndices
         {
             int32_t graphics_family = -1;

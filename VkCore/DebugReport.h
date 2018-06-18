@@ -9,23 +9,26 @@
 
 namespace Vk
 {
-    class DebugReport
+    namespace Core
     {
-    public:
-        DebugReport( ) = default;
-        explicit DebugReport( Instance* p_instance );
-        DebugReport( const DebugReport& debug_report ) = delete;
-        DebugReport( DebugReport&& debug_report ) noexcept;
-        ~DebugReport( );
+        class DebugReport
+        {
+        public:
+            DebugReport( ) = default;
+            explicit DebugReport( Instance* p_instance );
+            DebugReport( const DebugReport& debug_report ) = delete;
+            DebugReport( DebugReport&& debug_report ) noexcept;
+            ~DebugReport( );
 
-        DebugReport& operator=( const DebugReport& debug_report ) = delete;
-        DebugReport& operator=( DebugReport&& debug_report ) noexcept;
+            DebugReport& operator=( const DebugReport& debug_report ) = delete;
+            DebugReport& operator=( DebugReport&& debug_report ) noexcept;
 
-    private:
-        Instance* p_instance_;
+        private:
+            Instance* p_instance_;
 
-        VkDebugReportCallbackEXT debug_report_handle_ = VK_NULL_HANDLE;
-    };
+            VkDebugReportCallbackEXT debug_report_handle_ = VK_NULL_HANDLE;
+        };
+    }
 }
 
 #endif //COMPUTE_DEBUGREPORT_H

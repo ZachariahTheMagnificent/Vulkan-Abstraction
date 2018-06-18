@@ -13,60 +13,63 @@
 
 namespace Vk
 {
-    template<size_t size>
-    class Semaphores
+    namespace Core
     {
-    public:
-        Semaphores( ) = default;
-        explicit Semaphores( const LogicalDevice* p_logical_device )
-                :
-                p_logical_device_( p_logical_device )
+        template<size_t size>
+        class Semaphores
         {
-            VkSemaphoreCreateInfo create_info = {};
-            create_info.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-
-            for( auto& semaphore_handle : semaphore_handles_ )
+        public:
+            Semaphores( ) = default;
+            explicit Semaphores( const LogicalDevice* p_logical_device )
+                    :
+                    p_logical_device_( p_logical_device )
             {
-                semaphore_handle = p_logical_device_->create_semaphore( create_info );
-            }
-        }
-        Semaphores( const Semaphores& semaphores ) = delete;
-        Semaphores( Semaphores&& semaphores ) noexcept
-        {
-            *this = std::move( semaphores );
-        }
-        ~Semaphores( )
-        {
-            for( auto& semaphore_handle : semaphore_handles_ )
-                semaphore_handle = p_logical_device_->destroy_semaphore( semaphore_handle );
-        }
+                VkSemaphoreCreateInfo create_info = {};
+                create_info.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-        Semaphores& operator=( const Semaphores& semaphores ) = delete;
-        Semaphores& operator=( Semaphores&& semaphores ) noexcept
-        {
-            if( this != &semaphores )
-            {
-                for( auto i = 0; i < num_elems_; ++i )
+                for( auto& semaphore_handle : semaphore_handles_ )
                 {
-                    if( semaphore_handles_[i] != VK_NULL_HANDLE )
-                        semaphore_handles_[i] = p_logical_device_->destroy_semaphore( semaphore_handles_[i] );
-
-                    semaphore_handles_[i] = semaphores.semaphore_handles_[i];
-                    semaphores.semaphore_handles_[i] = VK_NULL_HANDLE;
-
-                    p_logical_device_ = semaphores.p_logical_device_;
+                    semaphore_handle = p_logical_device_->create_semaphore( create_info );
                 }
             }
+            Semaphores( const Semaphores& semaphores ) = delete;
+            Semaphores( Semaphores&& semaphores ) noexcept
+            {
+                *this = std::move( semaphores );
+            }
+            ~Semaphores( )
+            {
+                for( auto& semaphore_handle : semaphore_handles_ )
+                    semaphore_handle = p_logical_device_->destroy_semaphore( semaphore_handle );
+            }
 
-            return *this;
-        }
+            Semaphores& operator=( const Semaphores& semaphores ) = delete;
+            Semaphores& operator=( Semaphores&& semaphores ) noexcept
+            {
+                if( this != &semaphores )
+                {
+                    for( auto i = 0; i < num_elems_; ++i )
+                    {
+                        if( semaphore_handles_[i] != VK_NULL_HANDLE )
+                            semaphore_handles_[i] = p_logical_device_->destroy_semaphore( semaphore_handles_[i] );
 
-    private:
-        const LogicalDevice* p_logical_device_ = nullptr;
+                        semaphore_handles_[i] = semaphores.semaphore_handles_[i];
+                        semaphores.semaphore_handles_[i] = VK_NULL_HANDLE;
 
-        VkSemaphore semaphore_handles_[size] = {};
-        size_t num_elems_ = size;
-    };
+                        p_logical_device_ = semaphores.p_logical_device_;
+                    }
+                }
+
+                return *this;
+            }
+
+        private:
+            const LogicalDevice* p_logical_device_ = nullptr;
+
+            VkSemaphore semaphore_handles_[size] = {};
+            size_t num_elems_ = size;
+        };
+    }
 }
 
 #endif //COMPUTE_SEMAPHORE_H

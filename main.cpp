@@ -23,21 +23,21 @@ int main( )
     };
     std::vector<const char*> extensions;
 
-    Vk::Instance instance( "Compute test", validation_layers, extensions );
-    Vk::DebugReport debug_report;
+    Vk::Core::Instance instance( "Compute test", validation_layers, extensions );
+    Vk::Core::DebugReport debug_report;
 
     if( enable_validation_layers )
-        debug_report = Vk::DebugReport( &instance );
+        debug_report = Vk::Core::DebugReport( &instance );
 
-    Vk::PhysicalDevice gpu( instance );
-    Vk::LogicalDevice logical_device( gpu, validation_layers, device_extensions );
-    Vk::CommandPool command_pool( gpu, &logical_device, Vk::PhysicalDevice::QueueFamilyType::eCOMPUTE );
-    Vk::Queue compute_queue( logical_device, gpu, Vk::PhysicalDevice::QueueFamilyType::eCOMPUTE, 0 );
+    Vk::Core::PhysicalDevice gpu( instance );
+    Vk::Core::LogicalDevice logical_device( gpu, validation_layers, device_extensions );
+    Vk::Core::CommandPool command_pool( gpu, &logical_device, Vk::Helpers::QueueFamilyType::eCOMPUTE );
+    Vk::Core::Queue compute_queue( logical_device, gpu, Vk::Helpers::QueueFamilyType::eCOMPUTE, 0 );
 
-    Vk::CommandBuffers<10> command_buffers( &command_pool );
+    Vk::Core::CommandBuffers<10> command_buffers( &command_pool );
 
-    Vk::Semaphores<2> semaphores( &logical_device );
-    Vk::Fences<2> fences( &logical_device );
+    Vk::Core::Semaphores<2> semaphores( &logical_device );
+    Vk::Core::Fences<2> fences( &logical_device );
 
     return 0;
 }
