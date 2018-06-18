@@ -8,7 +8,6 @@
 
 namespace Vk
 {
-
     ShaderModule::ShaderModule( const std::string& shader_location )
     {
         auto shader_code = read_from_binary_file( shader_location );
