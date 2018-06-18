@@ -22,6 +22,9 @@ namespace Vk
         CommandPool( CommandPool&& command_pool ) noexcept;
         ~CommandPool( );
 
+        std::vector<VkCommandBuffer> allocate_command_buffers( VkCommandBufferAllocateInfo& allocate_info, uint32_t number ) const;
+        std::vector<VkCommandBuffer> free_command_buffers( std::vector<VkCommandBuffer>& command_buffer_handles ) const;
+
         CommandPool& operator=( const CommandPool& command_pool ) = delete;
         CommandPool& operator=( CommandPool&& command_pool ) noexcept;
 

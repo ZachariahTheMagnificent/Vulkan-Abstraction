@@ -29,6 +29,14 @@ namespace Vk
             command_pool_handle_ = p_logical_device_->destroy_command_pool( command_pool_handle_ );
     }
 
+    std::vector<VkCommandBuffer>
+    CommandPool::allocate_command_buffers( VkCommandBufferAllocateInfo& allocate_info, uint32_t number ) const
+    {
+        allocate_info.commandPool = command_pool_handle_;
+
+        return p_logical_device_->allocate_command_buffers( allocate_info, number );
+    }
+
     CommandPool& CommandPool::operator=( CommandPool&& command_pool ) noexcept
     {
         if( this != &command_pool )
@@ -43,5 +51,11 @@ namespace Vk
         }
 
         return *this;
+    }
+
+    std::vector<VkCommandBuffer>
+    CommandPool::free_command_buffers( std::vector<VkCommandBuffer>& command_buffer_handles ) const
+    {
+        return p_logical_device_->free_command_buffers( command_pool_handle_, command_buffer_handles );
     }
 }

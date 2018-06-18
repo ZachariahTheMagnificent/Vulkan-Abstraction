@@ -30,7 +30,7 @@ namespace Vk
             queue_create_infos.emplace_back( create_info );
         }
 
-        auto physical_device_features = physical_device.features();
+        auto& physical_device_features = physical_device.features();
 
         VkDeviceCreateInfo create_info = {};
         create_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
@@ -77,6 +77,18 @@ namespace Vk
         return *this;
     }
 
+    VkQueue
+    LogicalDevice::get_queue( int32_t family_index, uint32_t queue_index ) const
+    {
+        VkQueue queue_handle;
+
+        vkGetDeviceQueue( device_handle_, family_index, queue_index, &queue_handle );
+
+        std::cout << "Queue acquired." << std::endl;
+
+        return queue_handle;
+    }
+
     VkCommandPool
     LogicalDevice::create_command_pool( VkCommandPoolCreateInfo& create_info ) const
     {
@@ -97,6 +109,30 @@ namespace Vk
         std::cout << "Command Pool destroyed." << std::endl;
 
         return VK_NULL_HANDLE;
+    }
+
+    std::vector<VkCommandBuffer>
+    LogicalDevice::allocate_command_buffers( VkCommandBufferAllocateInfo& allocate_info, uint32_t number ) const
+    {
+        std::vector<VkCommandBuffer> command_buffers( number );
+
+        if( vkAllocateCommandBuffers( device_handle_, &allocate_info, command_buffers.data() ) != VK_SUCCESS )
+            std::cerr << "Failed to allocate Command Buffers." << std::endl;
+        else
+            std::cout << "Command Buffers allocated successfully." << std::endl;
+
+        return command_buffers;
+    }
+    std::vector<VkCommandBuffer>
+    LogicalDevice::free_command_buffers( const VkCommandPool& command_pool_handle, std::vector<VkCommandBuffer>& command_buffer_handles ) const
+    {
+        vkFreeCommandBuffers( device_handle_, command_pool_handle,
+                              static_cast<uint32_t>( command_buffer_handles.size() ),
+                              command_buffer_handles.data() );
+
+        std::cout << "Command Buffers freed." << std::endl;
+
+        return std::vector<VkCommandBuffer>( );
     }
 
     VkSemaphore
@@ -155,5 +191,26 @@ namespace Vk
     LogicalDevice::reset_fences( VkFence* p_fence_handle, uint32_t fence_count ) const
     {
         vkResetFences( device_handle_, fence_count, p_fence_handle );
+    }
+
+    VkShaderModule LogicalDevice::create_shader_module( VkShaderModuleCreateInfo& create_info ) const
+    {
+        VkShaderModule shader_module_handle;
+
+        if( vkCreateShaderModule( device_handle_, &create_info, nullptr, &shader_module_handle ) != VK_SUCCESS )
+            std::cerr << "Failed to create Shader Module." << std::endl;
+        else
+            std::cout << "Shader Module created successfully." << std::endl;
+
+        return shader_module_handle;
+    }
+
+    VkShaderModule LogicalDevice::destroy_shader_module( VkShaderModule& shader_module_handle ) const
+    {
+        vkDestroyShaderModule( device_handle_, shader_module_handle, nullptr );
+
+        std::cout << "Shader Module destroyed." << std::endl;
+
+        return VK_NULL_HANDLE;
     }
 }

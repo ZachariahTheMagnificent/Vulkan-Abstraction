@@ -21,6 +21,6 @@ add_executable( Compute
         VkCore/LogicalDevice.cpp
         VkCore/CommandPool.h
         VkCore/CommandPool.cpp
-        VkCore/Semaphores.h VkCore/Fences.h)
+        VkCore/Semaphores.h VkCore/Fences.h VkCore/Queue.h VkCore/Queue.cpp VkCore/CommandBuffers.h VkCore/ShaderModule.h VkCore/ShaderModule.cpp read.h)
 
 target_link_libraries( Compute libvulkan.so libglfw.so )
