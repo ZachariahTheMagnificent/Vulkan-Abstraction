@@ -1,26 +1,12 @@
-cmake_minimum_required( VERSION 3.10 )
-project( Compute )
+cmake_minimum_required(VERSION 3.11)
+project(vulkan-abstraction VERSION 1.0.0 DESCRIPTION "BouwnLaw's attempt at Vulkan" LANGUAGES CXX)
 
-include_directories( ${PROJECT_SOURCE_DIR}/dependencies/include )
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(GLFW_INSTALL OFF CACHE INTERNAL "Generate installation target")
 
-link_directories( ${PROJECT_SOURCE_DIR}/dependencies/lib/vulkan )
-link_directories( ${PROJECT_SOURCE_DIR}/dependencies/lib/glfw )
-
-set( CMAKE_CXX_STANDARD 17 )
-
-add_executable( Compute
-        main.cpp
-        VkCore/Instance.h
-        VkCore/Instance.cpp
-        VkCore/DebugReport.h
-        VkCore/DebugReport.cpp
-        VkCore/PhysicalDevice.h
-        VkCore/PhysicalDevice.cpp
-        VkHelpers/QueueFamilyIndices.h
-        VkCore/LogicalDevice.h
-        VkCore/LogicalDevice.cpp
-        VkCore/CommandPool.h
-        VkCore/CommandPool.cpp
-        VkCore/Semaphores.h VkCore/Fences.h VkCore/Queue.h VkCore/Queue.cpp VkCore/CommandBuffers.h VkCore/ShaderModule.h VkCore/ShaderModule.cpp read.h)
-
-target_link_libraries( Compute libvulkan.so libglfw.so )
+add_subdirectory(glfw)
+add_subdirectory(compute)
+add_subdirectory(glm)
+add_subdirectory(vulkan)
