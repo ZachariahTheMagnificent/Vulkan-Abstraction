@@ -16,6 +16,6 @@ add_executable(compute
         VkCore/CommandPool.cpp
         VkCore/Semaphores.h VkCore/Fences.h VkCore/Queue.h VkCore/Queue.cpp VkCore/CommandBuffers.h VkCore/ShaderModule.h VkCore/ShaderModule.cpp read.h)
 		
-target_include_directories(compute PUBLIC VkCore)
-target_compile_features(compute PUBLIC cxx_std_17)
-target_link_libraries(compute vulkan glfw glm)
+target_include_directories(compute PUBLIC VkCore) # Add the headers to the executable.
+target_compile_features(compute PUBLIC cxx_std_17) # This executable uses C++17.
+target_link_libraries(compute vulkan glfw glm) # Declare the libraries the executable uses.
